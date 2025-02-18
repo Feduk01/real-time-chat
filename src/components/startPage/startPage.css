@@ -1,0 +1,102 @@
+/* Import Orbitron font */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+.start-page {
+  background: url('../../assets/startPageGIF1.gif') center/cover no-repeat;
+  color: #ffffff;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 50px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.typing-effect {
+  font-size: 2.8rem;
+  max-width: 1400px;
+  height: 100vh;
+
+  line-height: 1.8;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: normal;
+  text-align: left;
+  font-family: 'Press Start 2P', sans-serif;
+  text-shadow: 2px 2px 0px #000000, 4px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+.start-button {
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 1.2rem;
+  padding: 12px 24px;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 40px;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+  display: inline-block;
+  max-width: 300px;
+  align-self: center;
+  justify-self: center;
+}
+
+.start-button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+}
+
+@media (max-width: 1400px) {
+  .typing-effect {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .typing-effect {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .typing-effect {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 770px) {
+  .typing-effect {
+    font-size: 1.9rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .typing-effect {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .typing-effect {
+    font-size: 1.4rem;
+  }
+}
+@media (max-width: 450px) {
+  .typing-effect {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 290px) {
+  .typing-effect {
+    font-size: 1rem;
+  }
+}
