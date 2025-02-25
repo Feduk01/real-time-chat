@@ -1,7 +1,7 @@
 /* Import Orbitron font */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 .start-page {
-  background: url('../../assets/startPageGIF1.gif') center/cover no-repeat;
+  background: url('../../assets/water-bg.gif') center/cover no-repeat;
   color: #ffffff;
   height: 100vh;
   width: 100vw;
@@ -26,7 +26,7 @@
   white-space: normal;
   text-align: left;
   font-family: 'Press Start 2P', sans-serif;
-  text-shadow: 2px 2px 0px #000000, 4px 4px 0px rgba(0, 0, 0, 0.5);
+  text-shadow: 3px 3px 0px #000000, 4px 4px 0px rgba(0, 0, 0, 0.5);
 }
 
 .start-button {
