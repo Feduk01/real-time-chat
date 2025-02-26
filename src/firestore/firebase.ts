@@ -3,13 +3,13 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 const firebaseConfig = {
-  apiKey: 'AIzaSyAXWb60nzD2cDq2lDddymIVURZSwm4dja8',
+  apiKey: import.meta.env.VITE_API_KEY,
   authDomain: 'real-time-chat-ffe00.firebaseapp.com',
   projectId: 'real-time-chat-ffe00',
   storageBucket: 'real-time-chat-ffe00.firebasestorage.app',
-  messagingSenderId: '452089355507',
-  appId: '1:452089355507:web:fc22dbc81e1d8c1a3ceb86',
-  measurementId: 'G-5VNMK1QXZC',
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDER_ID,
+  appId: import.meta.env.APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 }
 
 // Initialize Firebase
