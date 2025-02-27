@@ -3,7 +3,6 @@ import Navigation from '../navigation/Navigation'
 function Main() {
   return (
     <div>
-      <h1>Main</h1>
       <Navigation />
       <Outlet />
     </div>
