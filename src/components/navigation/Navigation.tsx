@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../firestore/firebase'
 import { selectUser, clearUser } from '../../store/slices/userSlice'
-
+import './navigation.css'
 function Navigation() {
   const currentUser = useSelector(selectUser)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const userName = currentUser.user ? currentUser.user.userName : 'Guest'
+  // const userName = currentUser.user ? currentUser.user.userName : 'Guest'
+  const { userName, userEmail, userProfilePicture } = currentUser.user || {}
 
   const handleLogout = async () => {
     try {
@@ -26,7 +27,9 @@ function Navigation() {
     <nav className="side-nav">
       <ul>
         <li>
+          <img src={userProfilePicture} alt="" />
           <h2>{userName}</h2>
+          <p>{userEmail}</p>
         </li>
         <li>
           <NavLink to="/main/direct-messages">Direct Messages</NavLink>

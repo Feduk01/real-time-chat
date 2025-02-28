@@ -1,8 +1,9 @@
 import { Outlet } from 'react-router-dom'
 import Navigation from '../navigation/Navigation'
+import './main.css'
 function Main() {
   return (
-    <div>
+    <div className="main-container">
       <Navigation />
       <Outlet />
     </div>

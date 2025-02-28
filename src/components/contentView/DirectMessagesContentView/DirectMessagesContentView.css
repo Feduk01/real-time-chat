@@ -1,0 +1,33 @@
+.dm-container {
+  width: 100%;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dm-message-container {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 80%;
+  display: flex;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.user-img img {
+  border-radius: 100%;
+  width: 100%;
+  min-width: 50px;
+  padding-right: 10px;
+}
+
+.user-info-container {
+  flex-grow: 1;
+}
+
+.user-message {
+  margin-top: 5px;
+}
