@@ -9,7 +9,7 @@ function Navigation() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   // const userName = currentUser.user ? currentUser.user.userName : 'Guest'
-  const { userName, userEmail, userProfilePicture } = currentUser.user || {}
+  const { userName, userProfilePicture } = currentUser.user || {}
 
   const handleLogout = async () => {
     try {
@@ -29,7 +29,6 @@ function Navigation() {
         <li>
           <img src={userProfilePicture} alt="" />
           <h2>{userName}</h2>
-          <p>{userEmail}</p>
         </li>
         <li>
           <NavLink to="/main/direct-messages">Direct Messages</NavLink>

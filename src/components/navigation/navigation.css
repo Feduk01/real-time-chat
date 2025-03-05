@@ -63,3 +63,6 @@
 .side-nav button:hover {
   color: #ff0000;
 }
+
+@media (max-width: 570px) {
+}
