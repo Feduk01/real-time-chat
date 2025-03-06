@@ -1,3 +1,4 @@
+/* Sidebar Navigation */
 .side-nav {
   width: 25%;
   min-width: 250px;
@@ -10,8 +11,37 @@
   border-right: 2px solid #333;
   display: flex;
   flex-direction: column;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  z-index: 10;
 }
 
+/* Sidebar is always visible by default */
+@media (min-width: 601px) {
+  .side-nav {
+    transform: translateX(0);
+  }
+}
+
+/* Mobile View - Hide by default */
+@media (max-width: 600px) {
+  .side-nav {
+    width: 100%;
+    max-width: 100%;
+    transform: translateX(-100%);
+    position: absolute;
+    height: 100vh;
+    top: 0;
+    left: 0;
+  }
+
+  /* Show Navbar when open */
+  .side-nav.open {
+    transform: translateX(0);
+  }
+}
+
+/* Nav List */
 .side-nav ul {
   list-style: none;
   padding: 0;
@@ -28,7 +58,6 @@
 
 .side-nav li:first-child {
   border: none;
-  flex-wrap: wrap;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -64,5 +93,47 @@
   color: #ff0000;
 }
 
-@media (max-width: 570px) {
+/* Hamburger Menu Button */
+.nav-toggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 1001;
+  transition: color 0.3s ease-in-out;
+  display: none; /* Hidden by default */
+}
+
+/* Show Hamburger Menu when Sidebar is hidden */
+@media (max-width: 600px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  /* Hide Hamburger when navbar is open */
+  .side-nav.open + .nav-toggle {
+    display: none;
+  }
+}
+
+/* Close Button inside Sidebar */
+.nav-toggle-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 10px;
+}
+
+/* Hide Close Button in Desktop View */
+@media (min-width: 601px) {
+  .nav-toggle-close {
+    display: none;
+  }
 }

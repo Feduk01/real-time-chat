@@ -1,33 +1,169 @@
+/* Direct Messages Container */
 .dm-container {
   width: 100%;
-  padding: 20px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 20px;
+  background-color: #282828;
+  color: white;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #282828;
 }
 
+/* Individual DM Message Container */
 .dm-message-container {
-  border: 1px solid black;
-  border-radius: 5px;
-  width: 80%;
+  width: 100%;
+  max-width: 500px;
   display: flex;
-  margin-bottom: 10px;
-  padding: 10px;
+  align-items: flex-start;
+  background-color: #3a3a3a;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  transition: background 0.3s ease-in-out;
+  cursor: pointer;
+  border: 1px solid #444;
+}
+
+.dm-message-container:hover {
+  background-color: #444;
+}
+
+/* User Profile Image */
+.user-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 12px;
+  border: 2px solid #ff4d4d;
+  flex-shrink: 0; /* Prevents shrinking when media is added */
 }
 
 .user-img img {
-  border-radius: 100%;
   width: 100%;
-  min-width: 50px;
-  padding-right: 10px;
+  height: 100%;
+  object-fit: cover;
 }
 
+/* User Info & Message Content */
 .user-info-container {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
 }
 
+/* Message Header (Username + Timestamp) */
+.dm-message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Sender Name */
+.user-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ff4d4d;
+  margin-bottom: 4px;
+}
+
+/* Timestamp */
+.timestamp {
+  font-size: 0.9rem;
+  color: #bbb;
+  text-align: right;
+  min-width: 120px;
+}
+
+/* Message Content */
 .user-message {
+  font-size: 1rem;
+  color: white;
+  background-color: #222;
+  padding: 8px;
+  border-radius: 6px;
+  max-width: 80%;
+  word-wrap: break-word;
+  margin-top: 4px;
+}
+
+/* Media Content (Images, GIFs) */
+.chat-media-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 6px;
   margin-top: 5px;
+  border: 1px solid #555;
+}
+
+/* Scrollbar Styling */
+.dm-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dm-container::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dm-message-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .user-img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .user-name {
+    font-size: 1rem;
+  }
+
+  .user-message {
+    font-size: 0.9rem;
+  }
+
+  .timestamp {
+    font-size: 0.8rem;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dm-container {
+    padding: 10px;
+  }
+
+  .dm-message-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .user-img {
+    margin-bottom: 8px;
+  }
+
+  .dm-message-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .timestamp {
+    text-align: left;
+    min-width: unset;
+    font-size: 0.8rem;
+  }
 }

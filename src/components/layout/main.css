@@ -1,4 +1,47 @@
+/* Main Layout Container */
 .main-container {
   display: flex;
   height: 100vh;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Sidebar Takes 25% and Main Takes 75% of the Width */
+.side-nav {
+  width: 25%;
+  min-width: 250px;
+  max-width: 320px;
+}
+
+.main-content {
+  flex-grow: 1;
+  width: 75%;
+  padding: 20px;
+  background-color: #282828;
+  color: white;
+  transition: width 0.3s ease-in-out;
+}
+
+/* MOBILE (<=600px) - Hide Sidebar, Full Width for Main Content */
+@media (max-width: 600px) {
+  .main-container {
+    flex-direction: column;
+  }
+
+  .side-nav {
+    width: 100%;
+    max-width: 100%;
+    border-right: none;
+    transform: translateX(-100%);
+    position: absolute;
+    height: 100vh;
+  }
+
+  .main-content {
+    width: 100%;
+  }
+
+  /* When Navbar Opens */
+  .main-container.nav-open .side-nav {
+    transform: translateX(0);
+  }
 }
