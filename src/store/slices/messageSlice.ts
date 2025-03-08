@@ -36,78 +36,95 @@ const initialState: MessageState = {
 
 //fetching Dm messages
 
-export const fetchDMPreviews = createAsyncThunk(
-  'messages/fetchDMPreviews',
-  async (_, { rejectWithValue }) => {
-    try {
-      //Fetch chat collection
-      const chatsRef = collection(db, 'chats')
-      const chatQuery = query(chatsRef, where('isGroupChat', '==', false))
-      const chatSnapshot = await getDocs(chatQuery)
-
-      const dmChatIDs = chatSnapshot.docs.map((doc) => doc.id) // Get only DM chat IDs
-
-      if (dmChatIDs.length === 0) {
-        return [] // No DM chats exist, return empty array
-      }
-
-      // Fetch messages only from DM chats
-      const messagesRef = collection(db, 'messages')
-      const messagesQuery = query(
-        messagesRef,
-        where('chatID', 'in', dmChatIDs), // messages only from DM chats
-        orderBy('timestamp', 'asc')
-      )
-      const querySnapshot = await getDocs(messagesQuery)
-
-      const latestMessageByChat: Record<string, Message> = {}
-      const usersCache: Record<string, { name: string; photoURL: string }> = {} // Cache for sender names & profile pictures
-
-      // Process messages
-      await Promise.all(
-        querySnapshot.docs.map(async (docSnap) => {
-          const messageData = docSnap.data()
-          const chatID = messageData.chatID
-
-          // If we already stored a message for this chatID, skip it
-          if (latestMessageByChat[chatID]) return
-
-          // Fetch sender details (username and profile picture)
-          if (!usersCache[messageData.senderID]) {
-            const userRef = doc(db, 'users', messageData.senderID)
-            const userSnap = await getDoc(userRef)
-
-            usersCache[messageData.senderID] = userSnap.exists()
-              ? {
-                  name: userSnap.data().userName,
-                  photoURL:
-                    userSnap.data().userProfilePicture || 'default-profile.png',
-                }
-              : { name: 'Unknown User', photoURL: 'default-profile.png' }
-          }
-
-          // Store only ONE latest message per chat
-          latestMessageByChat[chatID] = {
-            messageID: docSnap.id,
-            chatID: messageData.chatID,
-            content: messageData.content,
-            mediaContent: messageData.mediaContent || '',
-            senderID: messageData.senderID,
-            senderName: usersCache[messageData.senderID].name,
-            photoURL: usersCache[messageData.senderID].photoURL,
-            timestamp: messageData.timestamp.toDate().toISOString(),
-          }
-        })
-      )
-
-      // Ensure only ONE latest message per chat is stored
-      return Object.values(latestMessageByChat)
-    } catch (error) {
-      console.log('Error fetching DM previews: ', error)
-      return rejectWithValue('Failed to load DM previews')
+export const fetchDMPreviews = createAsyncThunk<
+  Message[],
+  void,
+  { state: RootState }
+>('messages/fetchDMPreviews', async (_, { getState, rejectWithValue }) => {
+  try {
+    //Get the logged-in user's ID
+    const currentUser = getState().user.user
+    if (!currentUser) {
+      return rejectWithValue('User not logged in')
     }
+    const userID = currentUser.userId
+    console.log('currentuser: ', currentUser)
+
+    //  Fetch DM chats where the logged-in user is a participant
+    const chatsRef = collection(db, 'chats')
+    const chatQuery = query(
+      chatsRef,
+      where('isGroupChat', '==', false),
+      where('members', 'array-contains', userID)
+    )
+    const chatSnapshot = await getDocs(chatQuery)
+
+    console.log('fetched chats the user is part of: ', chatSnapshot)
+
+    const dmChatIDs = chatSnapshot.docs.map((doc) => doc.id)
+
+    if (dmChatIDs.length === 0) {
+      return [] // No DM chats exist, return empty array
+    }
+
+    // Fetch messages only from the user's DM chats
+    const messagesRef = collection(db, 'messages')
+    const messagesQuery = query(
+      messagesRef,
+      where('chatID', 'in', dmChatIDs), // Messages only from user's chats
+      orderBy('timestamp', 'desc')
+    )
+    const querySnapshot = await getDocs(messagesQuery)
+
+    console.log('fetched messages the user is part of: ', querySnapshot)
+
+    const latestMessageByChat: Record<string, Message> = {}
+    const usersCache: Record<string, { name: string; photoURL: string }> = {}
+
+    // Process messages
+    await Promise.all(
+      querySnapshot.docs.map(async (docSnap) => {
+        const messageData = docSnap.data()
+        const chatID = messageData.chatID
+
+        // If we already stored a message for this chatID, skip it
+        if (latestMessageByChat[chatID]) return
+
+        // Fetch sender details (username and profile picture)
+        if (!usersCache[messageData.senderID]) {
+          const userRef = doc(db, 'users', messageData.senderID)
+          const userSnap = await getDoc(userRef)
+
+          usersCache[messageData.senderID] = userSnap.exists()
+            ? {
+                name: userSnap.data().userName,
+                photoURL:
+                  userSnap.data().userProfilePicture || 'default-profile.png',
+              }
+            : { name: 'Unknown User', photoURL: 'default-profile.png' }
+        }
+
+        // Store only ONE latest message per chat
+        latestMessageByChat[chatID] = {
+          messageID: docSnap.id,
+          chatID: messageData.chatID,
+          content: messageData.content,
+          mediaContent: messageData.mediaContent || '',
+          senderID: messageData.senderID,
+          senderName: usersCache[messageData.senderID].name,
+          photoURL: usersCache[messageData.senderID].photoURL,
+          timestamp: messageData.timestamp.toDate().toISOString(),
+        }
+      })
+    )
+
+    // Return only latest messages per chat
+    return Object.values(latestMessageByChat)
+  } catch (error) {
+    console.log('Error fetching DM previews: ', error)
+    return rejectWithValue('Failed to load DM previews')
   }
-)
+})
 
 //Fetching group messages
 export const fetchMessages = createAsyncThunk(
