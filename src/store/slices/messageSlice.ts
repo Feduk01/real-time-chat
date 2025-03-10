@@ -7,6 +7,8 @@ import {
   where,
   orderBy,
   getDoc,
+  addDoc,
+  serverTimestamp,
 } from 'firebase/firestore'
 import { RootState } from '../store'
 import { db } from '../../firestore/firebase'
@@ -169,12 +171,58 @@ export const fetchMessages = createAsyncThunk(
   }
 )
 
+//Create a message
+
+export const createMessage = createAsyncThunk(
+  'messages/createMessage',
+  async (
+    messageData: Omit<Message, 'messageID' | 'timestamp'>,
+    { rejectWithValue }
+  ) => {
+    try {
+      const messagesRef = collection(db, 'messages')
+      const newMessageRef = await addDoc(messagesRef, {
+        ...messageData,
+        timestamp: serverTimestamp(), // Firestore timestamp
+      })
+
+      return {
+        ...messageData,
+        messageID: newMessageRef.id,
+        timestamp: new Date().toISOString(),
+      }
+    } catch (error) {
+      console.error('Error sending message:', error)
+      return rejectWithValue('Failed to send message')
+    }
+  }
+)
+
 export const MessagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
     addMessage: (state, action: PayloadAction<Message>) => {
       state.messages.push(action.payload)
+    },
+    setMessages: (state, action: PayloadAction<Message[]>) => {
+      const newMessages = action.payload
+
+      if (newMessages.length === 0) return
+
+      // ✅ Get chat ID from first message
+      const chatID = newMessages[0].chatID
+
+      // ✅ Update only messages from the active chat
+      state.messages = [
+        ...state.messages.filter((msg) => msg.chatID !== chatID), // Keep other chats intact
+        ...newMessages.filter(
+          (newMsg) =>
+            !state.messages.some(
+              (existingMsg) => existingMsg.messageID === newMsg.messageID
+            ) // ✅ Avoid duplicates
+        ),
+      ]
     },
   },
   extraReducers: (builder) => {
@@ -210,7 +258,7 @@ export const MessagesSlice = createSlice({
   },
 })
 
-export const { addMessage } = MessagesSlice.actions
+export const { addMessage, setMessages } = MessagesSlice.actions
 export const selectMessage = (state: RootState) => state.messages.messages
 export const selectDMPreviews = (state: RootState) => state.messages.dmPreviews
 export const selectLoading = (state: RootState) => state.messages.loading

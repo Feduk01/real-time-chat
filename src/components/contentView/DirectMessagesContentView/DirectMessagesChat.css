@@ -1,0 +1,172 @@
+/* DM Chat Container */
+.dm-chat-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px 20px 20px;
+  background-color: #282828;
+  color: white;
+}
+
+/* Chat Header */
+.dm-chat-header {
+  padding: 10px;
+  background-color: #1e1e1e;
+  border-bottom: 2px solid #333;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ff4d4d;
+}
+
+.user-info-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 12px;
+  border: 2px solid #ff4d4d;
+}
+
+.header-user-info {
+  display: flex;
+  align-items: center;
+}
+
+/* Chat Main */
+.dm-chat-main {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Chat Messages */
+.dm-chat-conversation {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dm-chat-message-container {
+  background-color: #3a3a3a;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 40%;
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Align Sent Messages to the Right */
+.dm-chat-message-container.self {
+  background-color: #ff4d4d;
+  color: white;
+  align-self: flex-end;
+}
+
+/* Message Header */
+.dm-chat-message-container-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+/* Sender Name */
+.dm-chat-message-username {
+  font-weight: bold;
+  color: #ff4d4d;
+}
+
+/* Timestamp */
+.dm-chat-timestamp {
+  font-size: 0.8rem;
+  color: #bbb;
+}
+
+/* Message Content */
+.dm-chat-message {
+  font-size: 1rem;
+  padding: 8px 0 4px 0;
+  word-wrap: break-word;
+}
+
+/* Input Area */
+.dm-chat-input-container {
+  display: flex;
+  padding: 10px;
+  background-color: #1e1e1e;
+  border-top: 2px solid #333;
+  border-radius: 5px;
+}
+
+.input-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dm-chat-input {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background-color: #333;
+  color: white;
+}
+
+/* Send Button */
+.send-button {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.send-button:hover {
+  background-color: #e60000;
+}
+
+/* Attach File Button */
+.dm-chat-form-btn-send-file {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.dm-chat-form-btn-send-file:hover {
+  color: #ff4d4d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dm-chat-message-container {
+    max-width: 80%;
+  }
+
+  .dm-chat-input {
+    font-size: 0.9rem;
+  }
+
+  .send-button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}

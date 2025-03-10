@@ -18,8 +18,8 @@ function DirectMessagesContentView() {
     dispatch(fetchDMPreviews())
   }, [dispatch])
 
-  const handleOpenChat = (chatID: string) => {
-    navigate(`/dm/${chatID}`)
+  const handleOpenChat = (userId: string) => {
+    navigate(`/main/direct-messages/${userId}`)
   }
 
   return (

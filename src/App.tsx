@@ -8,30 +8,38 @@ import AIChatContentView from './components/contentView/AIChatContentView/AIChat
 import DirectMessagesContentView from './components/contentView/DirectMessagesContentView/DirectMessagesContentView'
 import GroupMessagesContentView from './components/contentView/GroupMessagesContentView/GroupMessagesContentView'
 import UsersContentView from './components/contentView/UsersContentView/UsersContentView'
+import DirectMessagesChat from './components/contentView/DirectMessagesContentView/DirectMessagesChat'
+import MessagesProvider from './components/MessagesProvider'
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <AuthProvider>
-          <Routes>
-            <Route path="/" element={<StartPage />} />
-            <Route path="login" element={<Login />} />
+          <MessagesProvider>
+            <Routes>
+              <Route path="/" element={<StartPage />} />
+              <Route path="login" element={<Login />} />
 
-            <Route path="main" element={<Main />}>
-              <Route index element={<DirectMessagesContentView />} />
-              <Route
-                path="direct-messages"
-                element={<DirectMessagesContentView />}
-              />
-              <Route
-                path="group-messages"
-                element={<GroupMessagesContentView />}
-              />
-              <Route path="ai-chat" element={<AIChatContentView />} />
-              <Route path="users" element={<UsersContentView />} />
-            </Route>
-          </Routes>
+              <Route path="main" element={<Main />}>
+                <Route index element={<DirectMessagesContentView />} />
+                <Route
+                  path="direct-messages"
+                  element={<DirectMessagesContentView />}
+                />
+                <Route
+                  path="group-messages"
+                  element={<GroupMessagesContentView />}
+                />
+                <Route path="ai-chat" element={<AIChatContentView />} />
+                <Route path="users" element={<UsersContentView />} />
+                <Route
+                  path="direct-messages/:userId"
+                  element={<DirectMessagesChat />}
+                />
+              </Route>
+            </Routes>
+          </MessagesProvider>
         </AuthProvider>
       </div>
     </BrowserRouter>
