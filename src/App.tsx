@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import StartPage from './components/startPage/StartPage'
 import Login from './components/login/Login'
@@ -13,7 +13,7 @@ import MessagesProvider from './components/MessagesProvider'
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="App">
         <AuthProvider>
           <MessagesProvider>
@@ -42,7 +42,7 @@ function App() {
           </MessagesProvider>
         </AuthProvider>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
