@@ -19,7 +19,7 @@ export interface Message {
   content: string
   mediaContent: string
   senderID: string
-  timestamp: Date
+  timestamp: string
   senderName: string
   photoURL: string
 }

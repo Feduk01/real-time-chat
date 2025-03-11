@@ -14,6 +14,7 @@ import { selectUser } from '../store/slices/userSlice'
 function MessagesProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch()
   const currentUser = useSelector(selectUser)
+  //   const messages = useSelector(selectMessage)
 
   useEffect(() => {
     if (!currentUser) return
@@ -29,7 +30,7 @@ function MessagesProvider({ children }: { children: React.ReactNode }) {
     )
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      console.log('🔄 New messages detected')
+      console.log('🔄 New messages detected', snapshot.docs.length)
 
       const updatedMessages = snapshot.docs.map((doc) => ({
         messageID: doc.id,
@@ -43,8 +44,10 @@ function MessagesProvider({ children }: { children: React.ReactNode }) {
           doc.data().timestamp?.toDate().toISOString() ||
           new Date().toISOString(), // ✅ Convert to ISO string
       }))
+      console.log('📡 New messages from Firestore:', updatedMessages)
 
-      dispatch(setMessages(updatedMessages)) // ✅ Update Redux state instantly
+      dispatch(setMessages(updatedMessages))
+      console.log('🟢 Messages is updated:', updatedMessages) // ✅ Update Redux state instantly
     })
 
     return () => {
