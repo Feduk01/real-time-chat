@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { auth } from '../../firestore/firebase'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../../store/slices/userSlice'
+import { addNewUser } from '../../store/slices/userSlice'
 import './login.css'
+import { AppDispatch } from '../../store/store'
 
 function Login() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const [loading, setLoading] = useState(false)
 
   const provider = new GoogleAuthProvider()
@@ -21,20 +22,23 @@ function Login() {
 
       if (result?.user) {
         console.log('✅ User signed in:', result.user)
-        dispatch(
-          setUser({
-            userId: result.user.uid,
-            userName: result.user.displayName || '',
-            userEmail: result.user.email || '',
-            userProfilePicture: result.user.photoURL || '',
-          })
-        )
+
+        const user = {
+          userId: result.user.uid, // ✅ Ensure ID is included
+          userName: result.user.displayName || '',
+          userEmail: result.user.email || '',
+          userProfilePicture: result.user.photoURL || '',
+        }
+
+        // Check and add user in Firestore, then navigate
+        await dispatch(addNewUser(user))
         navigate('/main')
       } else {
         console.log('❌ No user found in signInWithPopup')
       }
     } catch (error) {
       console.error('🔴 Google Sign-In Error:', error)
+    } finally {
       setLoading(false)
     }
   }
