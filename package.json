@@ -17,6 +17,7 @@
     "filepond-plugin-image-preview": "^4.6.12",
     "firebase": "^11.3.1",
     "gsap": "^3.12.7",
+    "openai": "^4.87.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-filepond": "^7.1.3",

@@ -4,6 +4,11 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../../firestore/firebase'
 import { selectUser, clearUser } from '../../store/slices/userSlice'
 import './navigation.css'
+import {
+  clearAIChatAfterLogOut,
+  clearAIChat,
+} from '../../store/slices/aiChatSlice'
+import { AppDispatch } from '../../store/store'
 
 function Navigation({
   isNavOpen,
@@ -13,7 +18,7 @@ function Navigation({
   setIsNavOpen: (value: boolean) => void
 }) {
   const currentUser = useSelector(selectUser)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const userName = currentUser?.userName || 'Guest'
   const userProfilePicture =
@@ -21,11 +26,18 @@ function Navigation({
 
   const handleLogout = async () => {
     try {
+      if (currentUser) {
+        await dispatch(clearAIChat(currentUser.userId)) // ✅ Ensure Firestore is updated
+      }
       await signOut(auth)
       dispatch(clearUser())
+      dispatch(clearAIChatAfterLogOut())
       navigate('/')
     } catch (error) {
-      console.log('Logout Error', error)
+      console.log(
+        'Logout Error:',
+        error instanceof Error ? error.message : 'Unknown error'
+      )
     }
   }
 
